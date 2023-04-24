@@ -1,4 +1,4 @@
-// requirements
+//app will use jest for running unit tests and inquirer for user input
 const inquirer = require("inquirer");
 const fs = require("fs");
 const util = require("util");
@@ -6,22 +6,22 @@ const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 const html = require("./src/html");
-const validator = require("email-validator");
+//add email validator if time permits
 
-// async functions
+// handle user prompts write and append file using promisify
 const writeFileAsync = util.promisify(fs.writeFile);
 const appendFileAsync = util.promisify(fs.appendFile);
-
+//create array to store employee data and string to hold html cards generated from employee data
 let teamArray = [];
 let teamString = ``;
 
 console.clear();
 console.log("My Team")
 
-// Main function to run application
+// Main function 
 async function main() {
     try {
-        await prompt()
+        await prompt() //collect user input and populate teamArray 
 
         for (let i = 0; i < teamArray.length; i++) {
             teamString = teamString + html.generateCard(teamArray[i]);
@@ -30,18 +30,18 @@ async function main() {
         let finalHtml = html.generateHTML(teamString)
 
         console.clear();
-        console.log("Generating index.html file....");
+        console.log("Creating html file");
 
         writeFileAsync("./dist/index.html", finalHtml);
 
         console.clear();
-        console.log("index.html file created successfully");
+        console.log("Html file successfully created");
 
     } catch (err) {
         return console.log(err);
     }
 }
-// Inquirer prompts to collect user data
+// collect user data inquirer
 async function prompt() {
     let responseDone = "";
 
@@ -53,7 +53,7 @@ async function prompt() {
                     name: "name",
                     message: "Please enter Employee's name.",
                     validate: function validateName(name) {
-                        return name !== "";
+                        return name !== ""; //make sure input is not an empty string
                     }
                 },
                 {
@@ -68,15 +68,12 @@ async function prompt() {
                     type: "input",
                     name: "email",
                     message: "Please enter employee's email address: ",
-                    // validation using email-validator
-                    validate: function validateName(name) {
-                        return validator.validate(name);
-                    }
+                   
                 },
                 {
                     type: "list",
                     name: "role",
-                    message: "What is the employee's role: ",
+                    message: "Please select employee's role: ",
                     choices: [
                         "Engineer",
                         "Intern",
@@ -91,13 +88,13 @@ async function prompt() {
                 response2 = await inquirer.prompt([{
                     type: "input",
                     name: "x",
-                    message: "What is the employee's github username?: ",
+                    message: "Enter employee's github username: ",
                     validate: function validateName(name){
                         return name !== "";
                     },
                 }, ]);
 
-                // add to team Arr
+                // adding responses to team
                 const engineer = new Engineer(response.name, response.id, response.email, response2.x);
                 teamArray.push(engineer);
             
@@ -105,13 +102,12 @@ async function prompt() {
                 response2 = await inquirer.prompt([{
                     type: "input",
                     name: "x",
-                    message: "What is the employee's office number?: ",
+                    message: "Enter employee's office number: ",
                     validate: function validateName(name){
                         return name !== "";
                     },
                 }, ]);
 
-                // add to team Arr
                 const manager = new Manager(response.name, response.id, response.email, response2.x);
                 teamArray.push(manager);
 
@@ -119,20 +115,19 @@ async function prompt() {
                 response2 = await inquirer.prompt([{
                     type: "input",
                     name: "x",
-                    message: "What school is employee attending: ",
+                    message: "Please enter employee's school name: ",
                     validate: function validateName(name){
                         return name !== "";
                     },
                 }, ]);
 
-                // add to team Array
                 const intern = new Intern(response.name, response.id, response.email, response2.x);
                 teamArray.push(intern);
             }
         } catch (err) {
             return console.log(err);
         }
-        responseDone = await inquirer.prompt([{
+        responseDone = await inquirer.prompt([{    //allow user to choose whether to add new team member or finish
             type: "list",
             name: "finish",
             message: "Do you want to continue?: ",
@@ -143,7 +138,5 @@ async function prompt() {
         },]);
     } while (responseDone.finish === "Yes");
 }
-
-// initial program
 main();
 

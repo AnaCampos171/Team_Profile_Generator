@@ -1,29 +1,33 @@
+const fs = require('fs');
+const path = require('path');
+
 const Manager = require("../lib/Manager");
 const Engineer = require("../lib/Engineer");
 const Intern = require("../lib/Intern");
-
-
+//add styling to page ../diststyling.css
 
 const generateHTML = function (teamString) {
   return `<!DOCTYPE html>
-      <html lang="en">
-        <head>
-          <meta charset="UTF-8" />
-          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-          <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-          <title>My Team</title>
-        </head>
-        <body>
-          <header>
-            <h1>My Team</h1>
-          </header>
-          <main>
-            <section>
-              ${teamString}
-            </section>
-          </main>
-        </body>
-      </html>`;
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <link rel="stylesheet" type="text/css" href="../dist/styling.css"> 
+        <title>My Team</title>
+        
+      </head>
+      <body>
+        <header>
+          <h1>My Team</h1>
+        </header>
+        <main>
+          <section>
+            ${teamString}
+          </section>
+        </main>
+      </body>
+    </html>`;
 };
 
 
