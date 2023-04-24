@@ -1,5 +1,5 @@
 // Import Manager constructor
-const Manager = require('../lib/manager');
+const Manager = require('../lib/Manager');
 
 // Test for setting office number
 test("setting office number", () => {

@@ -15,7 +15,7 @@ describe("Engineer class", () => {
     expect(employee.getRole()).toBe("Engineer");
   });
 
-  it("gets github username via getGitHub", () => {
-    expect(employee.getGitHub()).toBe("katherine-github");
+  it("gets github username via getGithub", () => {
+    expect(employee.getGithub()).toBe("katherine-github");
   });
 });

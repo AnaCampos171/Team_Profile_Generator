@@ -1,3 +1,6 @@
+const Intern = require('../lib/Intern');
+
+
 test("setting school via the constructor argument", () => {
     const testValue = "University of California, Riverside";
     const employee = new Intern("John", 1, "john@gmail.com", testValue);
